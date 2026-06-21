@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f7efe2" />
+    <title>來動動</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero" aria-labelledby="app-title">
+        <div>
+          <p class="eyebrow">每日照顧</p>
+          <h1 id="app-title">來動動</h1>
+        </div>
+        <button class="icon-button" id="settingsButton" type="button" aria-label="設定影片網址">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
+            <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.05.05a2 2 0 0 1-2.83 2.83l-.05-.05A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21a2 2 0 0 1-4 0v-.1A1.7 1.7 0 0 0 8.5 19.3a1.7 1.7 0 0 0-1.88.34l-.05.05a2 2 0 1 1-2.83-2.83l.05-.05A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.6-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.34-1.88l-.05-.05a2 2 0 1 1 2.83-2.83l.05.05A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.88-.34l.05-.05a2 2 0 0 1 2.83 2.83l-.05.05A1.7 1.7 0 0 0 19.4 9c.19.62.77 1 1.6 1h.1a2 2 0 0 1 0 4H21c-.83 0-1.41.38-1.6 1Z" />
+          </svg>
+        </button>
+      </section>
+
+      <section class="today-panel" aria-label="今天狀態">
+        <div>
+          <p class="card-kicker">🔥 今日進度</p>
+          <p id="todayLabel" class="date-label"></p>
+          <p id="encouragement" class="encouragement"></p>
+        </div>
+        <div class="completion-ring" aria-hidden="true">
+          <span id="completionPercent">0%</span>
+        </div>
+      </section>
+
+      <section class="video-actions" aria-label="影片按鈕">
+        <button class="video-button morning" id="morningButton" type="button">
+          <span class="button-kicker">早上</span>
+          <span id="morningState">尚未完成</span>
+        </button>
+        <button class="video-button night" id="nightButton" type="button">
+          <span class="button-kicker">晚上</span>
+          <span id="nightState">尚未完成</span>
+        </button>
+      </section>
+
+      <section class="stats-grid" aria-label="完成統計">
+        <article>
+          <span id="fullDays">0</span>
+          <p>完整完成天數</p>
+        </article>
+        <article>
+          <span id="streakDays">0</span>
+          <p>目前連續天數</p>
+        </article>
+        <article>
+          <span id="monthDays">0</span>
+          <p>本月完整天數</p>
+        </article>
+      </section>
+
+      <section class="history-panel" aria-labelledby="historyTitle">
+        <div class="section-heading">
+          <div>
+            <p class="card-kicker">集點回顧</p>
+            <h2 id="historyTitle">最近完成紀錄</h2>
+          </div>
+          <button id="resetTodayButton" class="text-button" type="button">重設今天</button>
+        </div>
+        <div class="range-tabs" role="tablist" aria-label="回顧範圍">
+          <button class="range-tab active" id="range7Button" type="button" data-range="7">最近 7 天</button>
+          <button class="range-tab" id="range30Button" type="button" data-range="30">最近 30 天</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </main>
+
+    <dialog id="settingsDialog" class="settings-dialog">
+      <form method="dialog" id="settingsForm">
+        <div class="section-heading">
+          <h2>影片設定</h2>
+          <button class="icon-button compact" value="cancel" aria-label="關閉設定" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <label>
+          早上影片網址
+          <input id="morningUrl" name="morningUrl" type="url" placeholder="https://..." />
+        </label>
+        <label>
+          晚上影片網址
+          <input id="nightUrl" name="nightUrl" type="url" placeholder="https://..." />
+        </label>
+        <p class="hint">貼上 YouTube、雲端影片或任何可以用瀏覽器打開的連結。按早上或晚上時，App 會開影片並記錄完成。</p>
+        <button class="save-button" value="default" type="submit">儲存</button>
+      </form>
+    </dialog>
+
+    <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+    <script src="./app.js" defer></script>
+  </body>
+</html>
